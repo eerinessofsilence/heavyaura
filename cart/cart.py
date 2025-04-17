@@ -11,7 +11,6 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
         
-    
     def add(self, product, quantity=1, override_quantity=False):
         product_id = str(product.id)
         if product_id not in self.cart:
@@ -27,14 +26,14 @@ class Cart:
     def save(self):
         self.session.modified = True
         
-    
+        
     def remove(self, product):
         product_id = str(product.id)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
-    
-    
+            
+            
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
@@ -60,4 +59,5 @@ class Cart:
             * Decimal(item['product'].discount / 100))) * item['quantity']
                 for item in self.cart.values())
         return format(total, '.2f')
-        
+    
+    
